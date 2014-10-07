@@ -202,13 +202,13 @@ public class HandTest {
 	
 	@Test
 	public final void TestStraight1() {
-		//currently it's failing this test. idk why.
+		//It initially failed because you accidently put TWO instead of TEN and THREE instead of JACK
 		ArrayList<Card> rfHand = new ArrayList<Card>();
 		rfHand.add(new Card(eSuit.SPADES,eRank.QUEEN));
-		rfHand.add(new Card(eSuit.CLUBS,eRank.TWO));
+		rfHand.add(new Card(eSuit.CLUBS,eRank.TEN));
 		rfHand.add(new Card(eSuit.CLUBS,eRank.KING));
 		rfHand.add(new Card(eSuit.CLUBS,eRank.ACE));
-		rfHand.add(new Card(eSuit.CLUBS,eRank.THREE));
+		rfHand.add(new Card(eSuit.CLUBS,eRank.JACK));
 		Hand h = Hand.EvalHand(rfHand);
 		
 		assertEquals("Should be straight:",eHandStrength.Straight.getHandStrength(),h.getHandStrength());
@@ -216,9 +216,10 @@ public class HandTest {
 	
 	@Test
 	public final void TestStraight2() {
+		//fixed this one too.
 		ArrayList<Card> rfHand = new ArrayList<Card>();
 		rfHand.add(new Card(eSuit.SPADES,eRank.QUEEN));
-		rfHand.add(new Card(eSuit.CLUBS,eRank.TWO));
+		rfHand.add(new Card(eSuit.CLUBS,eRank.TEN));
 		rfHand.add(new Card(eSuit.CLUBS,eRank.KING));
 		rfHand.add(new Card(eSuit.CLUBS,eRank.ACE));
 		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
@@ -320,6 +321,7 @@ public class HandTest {
 	
 	@Test
 	public final void HighCard2() {
+		//Impossible to get high card with Joker
 		ArrayList<Card> rfHand = new ArrayList<Card>();
 		rfHand.add(new Card(eSuit.SPADES,eRank.KING));
 		rfHand.add(new Card(eSuit.CLUBS,eRank.QUEEN));
@@ -330,6 +332,58 @@ public class HandTest {
 		
 		assertEquals("Should be high card:",eHandStrength.HighCard.getHandStrength(),h.getHandStrength());
 	}
+	
+	@Test
+	public final void Jokers_2() {
+		ArrayList<Card> rfHand = new ArrayList<Card>();
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.CLUBS,eRank.ACE));
+		rfHand.add(new Card(eSuit.CLUBS,eRank.FIVE));
+		rfHand.add(new Card(eSuit.CLUBS,eRank.THREE));
+		Hand h = Hand.EvalHand(rfHand);
+		
+		assertEquals("Should be straight flush:",eHandStrength.StraightFlush.getHandStrength(),h.getHandStrength());
+	}
 
+
+	@Test
+	public final void Jokers_3() {
+		ArrayList<Card> rfHand = new ArrayList<Card>();
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.CLUBS,eRank.JACK));
+		rfHand.add(new Card(eSuit.CLUBS,eRank.THREE));
+		Hand h = Hand.EvalHand(rfHand);
+		
+		assertEquals("Should be four of a kind:",eHandStrength.FourOfAKind.getHandStrength(),h.getHandStrength());
+	}
+	
+	@Test
+	public final void Jokers_4() {
+		ArrayList<Card> rfHand = new ArrayList<Card>();
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.CLUBS,eRank.JACK));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		Hand h = Hand.EvalHand(rfHand);
+		
+		assertEquals("Should be five of a kind:",eHandStrength.FiveOfAKind.getHandStrength(),h.getHandStrength());
+	}
+	
+	@Test
+	public final void Jokers_5() {
+		ArrayList<Card> rfHand = new ArrayList<Card>();
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		rfHand.add(new Card(eSuit.Joker,eRank.Joker));
+		Hand h = Hand.EvalHand(rfHand);
+		
+		assertEquals("Should be five of a kind:",eHandStrength.FiveOfAKind.getHandStrength(),h.getHandStrength());
+	}
 }
 
